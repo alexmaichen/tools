@@ -4,30 +4,25 @@ Author: Alexmaichen
 Encoding: ASCII
 """
 
-def selection(L: list, order = 'a'):
+def selection(L: list, order = 'a') -> list:
     
-    if type(order) != str or (type(L) != list and type(L) != list):
+    if type(order) != str or (type(L) != list and type(L) != str):
         raise TypeError
     
-    temp = 0
     for i in range(len(L)):
         for j in range(i, len(L)):
             
             if order[0] == 'a':     #change comparison symbol to reverse order (ascending)
                 if L[i] > L[j]:     #swap accordingly
-                    temp = L[i]
-                    L[i] = L[j]
-                    L[j] = temp
+                    L[i], L[j] = L[j], L[i]
                     
             if order[0] == 'd':     #change comparison symbol to reverse order (descending)
                 if L[i] < L[j]:     #swap accordingly
-                    temp = L[i]
-                    L[i] = L[j]
-                    L[j] = temp
+                    L[i], L[j] = L[j], L[i]
     return L
 
 
-def greedy(somme: float, pieces: list): #Values in list must be of types int or float. Must not include 0.
+def greedy(somme: float, pieces: list) -> float: #Values in list must be of types int or float. Must not include 0.
     if (type(somme) != float and type(somme) != int) or (type(pieces) != list and type(pieces) != tuple):
         raise TypeError
     pieces = selection(pieces, 'd')
@@ -40,7 +35,7 @@ def greedy(somme: float, pieces: list): #Values in list must be of types int or 
     return total
 
 
-def doubles(L: list): #checks if an entry from a sequence appears at least twice in a row
+def doubles(L: list) -> bool: #checks if an entry from a sequence appears at least twice in a row
     
     if type(L) != list and type(L) != tuple and type(L) != str:
         raise TypeError
@@ -52,7 +47,7 @@ def doubles(L: list): #checks if an entry from a sequence appears at least twice
     return isDouble
 
 
-def isStrInt(keyword: str): #takes the first character of a string
+def isStrInt(keyword: str) -> bool: #takes the first character of a string
     
     if type(keyword) != str:
         raise TypeError
@@ -61,7 +56,7 @@ def isStrInt(keyword: str): #takes the first character of a string
     return check #returns true if keyword[0] is an int as a str, else false
 
 
-def isStrIntFull(keyword: str): #less optimized for some scenarios, but may sometimes be required so I wrote it anyways
+def isStrIntFull(keyword: str) -> bool: #less optimized for some scenarios, but may sometimes be required so I wrote it anyways
     
     if type(keyword) != str:
         raise TypeError
@@ -72,7 +67,7 @@ def isStrIntFull(keyword: str): #less optimized for some scenarios, but may some
     return check
 
 
-def shuffle(string: str):
+def shuffle(string: str) -> str: #lists are supported too! :]
     
     if type(string) != str and type(string) != list:
         raise TypeError
@@ -94,15 +89,33 @@ def shuffle(string: str):
     return s
 
 
-def charRemove(string: str, char: str): #remove all instances of a given char from a given string
+def charRemoveAll(string: str, charToRemove: str) -> str: #remove all instances of a given char from a given string
     
-    if type(string) != str or type(char) != str:
+    if type(string) != str or type(charToRemove) != str:
         raise TypeError
-    if len(char) != 1:
+    if len(charToRemove) != 1:
         raise ValueError("Invalid length for char input.")
     
     w = ""
     for c in string:
-        if c != char:
+        if c != charToRemove:
             w += c
     return w
+
+
+def minVal(value: float, limit: float) -> float:
+    if value>=limit:
+        return value
+    else:
+        return limit
+
+
+def maxVal(value: float, limit: float) -> float:
+    if value<=limit:
+        return value
+    else:
+        return limit
+
+
+def intAndFracParts(n: float) -> tuple:
+    return n//1, n - n//1
