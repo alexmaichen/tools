@@ -172,3 +172,21 @@ def bounds(lowerLim: float, value: float, higherLim: float) -> float:
 #the math library has this but better. I know.
 def intAndFracParts(n: float) -> tuple:
     return int(n//1), n%1
+
+
+#check if nToCompare is within a percent deviation dev of nToCompareWith... similar to bounds()
+#example usecase: flag = closeEnough(float(input()), 50, 5)
+def closeEnough(nToCompare: float, n: float, dev: float = 10) -> bool:
+    
+    if type(nToCompare) =! int and type(nToCompare) != float:
+        raise TypeError
+    if type(n) =! int and type(n) != float:
+        raise TypeError
+    if type(dev) =! int and type(dev) != float:
+        raise TypeError
+    #was considering adding error throwing if deviation is negative
+    
+    if nToCompare >= n*(1 - dev/100) and nToCompare <= n*(1 + dev/100): 
+        return True
+    else:
+        return False
