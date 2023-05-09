@@ -5,33 +5,8 @@ Encoding: ASCII
 """
 
 
-#seqSearch() is untested, should work though. in fact it likely even works for searching a sequence within a list!
-def seqSearch(text: str, string: str) -> list: #returns list of all positions from which the sequence can be read
-    
-    if (type(text)!= str and type(text) != list) or type(text) != tuple:
-        raise TypeError
-    
-    positions = []
-    
-    if len(string) > len(text):     #sequence is longer than text, no instances found
-        return positions
-    
-    if not len(string) * len(text): #sequence and / or text have length 0
-        return positions
-    
-    for i in range(len(text) - len(str) + 1):
-        flag = True #assume the condition is true for each char in the text
-        
-        for j in range(len(string)):
-            flag *= text[i + j] == string[j] #run the test for each char in the searched sequence
-        
-        if flag: #only passes the test if all chars passed the test in the sequence comparison for() loop
-            positions.append(i)
-        
-    return positions
 
-
-#somewhat inefficient O(n) but easy to remember and use, can even reverse order without the need for the .reverse() method!
+#somewhat inefficient O(n) but easy to remember and use, can even reverse order at no extra cost without the need for the .reverse() method!
 def selection(L: list, order = 'a') -> list:
     
     if type(order) != str or (type(L) != list and type(L) != str):
@@ -48,24 +23,6 @@ def selection(L: list, order = 'a') -> list:
                 if L[i] < L[j]:     #swap accordingly
                     L[i], L[j] = L[j], L[i]
     return L
-
-
-#greedy algorithm
-def greedy(somme: float, pieces: list) -> float: #Values in list must be of types int or float. Must not include 0.
-    
-    if (type(somme) != float and type(somme) != int) or (type(pieces) != list and type(pieces) != tuple):
-        raise TypeError
-    if 0 in pieces:
-        raise ValueError("list contains value 0")
-    
-    pieces = selection(pieces, 'd')
-    total  = []
-    for piece in pieces:
-        if somme//piece:
-            for i in range(somme//piece):
-                total.append(piece)
-                somme -= piece
-    return total
 
 
 
@@ -113,16 +70,16 @@ def shuffle(string: str) -> str: #lists are supported too! :]
     from random import randint
     if type(string) == str:
         s = "" #shuffled string
-    elif type(string) == list:
+    elif type(string) == list or type(string) == tuple:
         s = []
     d = []
-    while len(s) != len(string): #make sure it has copied every char
-        r = randint(0, len(string)-1)
-        if r not in d: #memory of which chars have already been copied
+    while len(s) != len(string): #make sure it has copied every entry
+        r = randint(0, len(string) - 1)
+        if r not in d: #memory of which entries of the sequence have already been copied
             d.append(r)
             if type(string) == str:
                 s += string[r]
-            elif type(string) == list:
+            elif type(string) == list or type(string) == tuple:
                 s.append(string[r])
     return s
 
@@ -174,19 +131,18 @@ def intAndFracParts(n: float) -> tuple:
     return int(n//1), n%1
 
 
-#check if nToCompare is within a percent deviation dev of nToCompareWith... similar to bounds()
-#example usecase: flag = closeEnough(float(input()), 50, 5)
-def closeEnough(nToCompare: float, n: float, dev: float = 10) -> bool:
+#check if nToCompare is within a percent deviation dev of nToCompareWith (called "n" here) ... similar to bounds()
+#example usecase: flag = closeEnough(float(input("Enter number to compare against bounds for: ")), 50, 5)
+def closeEnough(nToCompare: float, n: float, dev: float) -> bool:
     
-    if type(nToCompare) =! int and type(nToCompare) != float:
+    if type(nToCompare) != int and type(nToCompare) != float:
         raise TypeError
-    if type(n) =! int and type(n) != float:
+    if type(n) != int and type(n) != float:
         raise TypeError
-    if type(dev) =! int and type(dev) != float:
+    if type(dev) != int and type(dev) != float:
         raise TypeError
-    #was considering adding error throwing if deviation is negative
     
-    if nToCompare >= n*(1 - dev/100) and nToCompare <= n*(1 + dev/100): 
+    if nToCompare >= n * (1 - abs(dev)/100) and nToCompare <= n * (1 + abs(dev)/100): 
         return True
     else:
         return False
